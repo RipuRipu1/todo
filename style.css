@@ -1,0 +1,50 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    list-style: none;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container{
+    min-width: 80vh;
+    min-height: 60vh;
+    border-radius: 5%;
+    box-shadow: -7px 10.5px 19px 5px #2e2e2e;
+    text-align: center;
+    margin-top: 17.5vh;
+}
+
+h1 {
+    line-height: 2;
+}
+
+ul li{
+    line-height: 1.7;
+}
+
+label{
+    margin-left: 25px;
+    font-size: 25px;
+}
+
+input[type=checkbox]{
+    width: 20px;
+    height: 20px;
+}
+
+input[type=checkbox]:checked ~ label{
+    text-decoration: line-through;
+}
