@@ -42,6 +42,10 @@ ul li{
     line-height: 1.7;
 }
 
+li:nth-child(1), label{
+    margin-left: -5px;
+}
+
 label{
     margin-left: 25px;
     font-size: 25px;
