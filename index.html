@@ -9,20 +9,48 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet">
 
+    <script src="https://unpkg.com/feather-icons"></script>
+
     <link rel="stylesheet" href="style.css">
 
 </head>
 <body>
     <div class="container">
         <form action="#" class="form-container">
-            <h1>Things to do</h1>
+            <h1>Things To Do</h1>
             <ul>
-                <li><input type="checkbox" name="todo" id="todo"><label>Phase 1</label></li>
-                <li><input type="checkbox" name="todo" id="todo"><label>Phase 2</label></li>
-                <li><input type="checkbox" name="todo" id="todo"><label>Phase 3</label></li>
+                <li>
+                    <input type="checkbox" name="todo" id="todo"><label>Phase 1</label>
+                    <button type="button" id="edit" class="edit">
+                        <i data-feather="edit-2"></i>
+                    </button>
+                    <button type="button" id="delete" class="delete">
+                        <i data-feather="trash-2"></i>
+                    </button>
+                </li>
+                <li><input type="checkbox" name="todo" id="todo"><label>Phase 2</label>
+                    <button type="button" id="edit" class="edit">
+                        <i data-feather="edit-2"></i>
+                    </button>
+                    <button type="button" id="delete" class="delete">
+                        <i data-feather="trash-2"></i>
+                    </button>
+                </li>
+                <li><input type="checkbox" name="todo" id="todo"><label>Phase 3</label>
+                    <button type="button" id="edit" class="edit">
+                        <i data-feather="edit-2"></i>
+                    </button>
+                    <button type="button" id="delete" class="delete">
+                        <i data-feather="trash-2"></i>
+                    </button>
+                </li>
             </ul>
         </form>
     </div>
+     <!-- Feather Icons -->
+     <script>
+        feather.replace();
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
