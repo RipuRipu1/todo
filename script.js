@@ -1,15 +1,20 @@
-const deleteButton = document.querySelectorAll('.delete');
 const clearButton = document.querySelector('.clear');
 const addButton = document.querySelector('.add');
 const list = document.querySelector('#listofitem');
 
-deleteButton.forEach(button => {
-    button.addEventListener('click', function() {
-        const items = this.parentElement;
-        items.remove();
+// delete each item function
+function deleteFunction(taskItem) {
+    const deleteButton = taskItem.querySelector('.delete');
+    deleteButton.addEventListener('click', () => {
+        taskItem.remove();
     });
-});
-clearButton.addEventListener('click', () => {
+}
+
+// Attach delete functionality to existing tasks (if any)
+document.querySelectorAll('#listofitem li').forEach(deleteFunction);
+
+clearButton.addEventListener('click', (e) => {
+    e.preventDefault(); // ensures the button doesn't reload page
     list.innerHTML = '';
 })
 
@@ -40,6 +45,7 @@ addButton.addEventListener('click', (e) => {
                     <i data-feather="trash-2"></i>
                 </button>`;
             list.appendChild(newItemList);
+            deleteFunction(newItemList);
             feather.replace();
         }
 
