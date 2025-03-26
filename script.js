@@ -98,6 +98,7 @@ function editFunction(taskItem) {
                 this.textContent = 'Edit';
 
                 //test
+                //test
 
                 // Restore edit event
                 this.removeEventListener('click', saveTask);
