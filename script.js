@@ -46,6 +46,7 @@ addButton.addEventListener('click', (e) => {
                 </button>`;
             list.appendChild(newItemList);
             deleteFunction(newItemList);
+            editFunction(newItemList);
             feather.replace();
         }
 
@@ -59,41 +60,49 @@ addButton.addEventListener('click', (e) => {
         addButton.textContent ='save';
         isVisible = true;
     }
-})
+});
 
-document.addEventListener('DOMContentLoaded', () => {
-    const editButton = document.querySelectorAll('.edit');
-    editButton.forEach(button => {
-        button.addEventListener('click', function(){
-            const item = this.parentElement;
-            const list_item = item.querySelector('label');
-            
-            if (list_item) {
-                const currentList = list_item.textContent;
-                console.log(currentList);
+function editFunction(taskItem) {
+    const editButton = taskItem.querySelector('.edit');
+    editButton.addEventListener('click', function () {
+        const item = this.parentElement;
+        const listItem = item.querySelector('label');
 
-                // input field
-                const input_item = document.createElement('input');
-                input_item.type = 'text';
-                input_item.value = currentList;
-        
-                // replace item
-                item.replaceChild(input_item, list_item);
-        
-                // add save button
-                this.textContent = 'Save';
-        
-                // saving changes
-                this.addEventListener('click', function () {
-                    const newList = input_item.value;
-                    const newListItem = document.createElement('label');
-                    newListItem.textContent = newList;
-                    item.replaceChild(newListItem, input_item);
-                    this.textContent = 'Edit';
-                }, {once: true});
-            } else {
-                console.error('Element label not found!');
-            }
-        });
+        if (listItem) {
+            const currentText = listItem.textContent;
+
+            // Create input field
+            const inputItem = document.createElement('input');
+            inputItem.type = 'text';
+            inputItem.value = currentText;
+
+            // Replace label with input field
+            item.replaceChild(inputItem, listItem);
+
+            // Change button text to "Save"
+            this.textContent = 'Save';
+
+            // Remove previous event listener to prevent duplication
+            this.removeEventListener('click', arguments.callee);
+
+            // Add save functionality
+            this.addEventListener('click', function saveTask() {
+                const newText = inputItem.value;
+                const newLabel = document.createElement('label');
+                newLabel.textContent = newText;
+
+                // Replace input field with updated label
+                item.replaceChild(newLabel, inputItem);
+
+                // Change button text back to "Edit"
+                this.textContent = 'Edit';
+
+                // Restore edit event
+                this.removeEventListener('click', saveTask);
+                editFunction(taskItem);
+            }, { once: true });
+        }
     });
-})
+}
+
+document.querySelectorAll('#listofitem li').forEach(editFunction);
