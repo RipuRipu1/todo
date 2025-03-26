@@ -97,6 +97,8 @@ function editFunction(taskItem) {
                 // Change button text back to "Edit"
                 this.textContent = 'Edit';
 
+                //test
+
                 // Restore edit event
                 this.removeEventListener('click', saveTask);
                 editFunction(taskItem);
