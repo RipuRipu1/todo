@@ -1,4 +1,5 @@
 const deleteButton = document.querySelectorAll('.delete');
+const clearButton = document.querySelector('.clear');
 
 deleteButton.forEach(button => {
     button.addEventListener('click', function() {
@@ -6,6 +7,11 @@ deleteButton.forEach(button => {
         items.remove();
     });
 });
+
+clearButton.addEventListener('click', () => {
+    const list = document.querySelector('#listofitem');
+    list.innerHTML = '';
+})
 
 document.addEventListener('DOMContentLoaded', () => {
     const editButton = document.querySelectorAll('.edit');
