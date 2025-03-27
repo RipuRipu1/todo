@@ -1,11 +1,19 @@
 const clearButton = document.querySelector('.clear');
 const list = document.querySelector('#listofitem');
 
+// clear function
+document.querySelector('.clear').addEventListener('click', () => {
+    localStorage.removeItem('tasks'); // Clear saved tasks
+    document.querySelector('#listofitem').innerHTML = ""; // Clear UI
+    
+});
+
 // delete each item function
 function deleteFunction(taskItem) {
     const deleteButton = taskItem.querySelector('.delete');
     deleteButton.addEventListener('click', () => {
         taskItem.remove();
+        
     });
 }
 
@@ -16,10 +24,11 @@ document.querySelectorAll('#listofitem li').forEach(deleteFunction);
 clearButton.addEventListener('click', (e) => {
     e.preventDefault(); // ensures the button doesn't reload page
     list.innerHTML = '';
+    
 })
 
 // add function
-function addFunction(){
+function addTask(textTodo, isChecked = false){
     const addButton = document.querySelector('.add');
 
     // create input field to add new task
@@ -38,6 +47,7 @@ function addFunction(){
             // get input value and trim space
     
             if (newValue != '') {
+                const newValue = this.textTodo;
                 const newItemList = document.createElement('li');
                 newItemList.innerHTML = 
                 `<input type="checkbox" name="todo">
@@ -51,6 +61,7 @@ function addFunction(){
                 list.appendChild(newItemList);
                 deleteFunction(newItemList);
                 editFunction(newItemList);
+                
                 feather.replace();
             }
     
@@ -106,6 +117,7 @@ function editFunction(taskItem) {
                 // Restore edit event
                 this.removeEventListener('click', saveTask);
                 editFunction(taskItem);
+                
             }, { once: true });
         }
     });
@@ -113,3 +125,26 @@ function editFunction(taskItem) {
 
 // Attach edit functionality to existing tasks
 document.querySelectorAll('#listofitem li').forEach(editFunction);
+
+// save tasks in local storage
+function Save(){
+    const todos = [];
+    const saveButton = document.querySelector('.save');
+    saveButton.addEventListener('click', function () {
+        document.querySelectorAll('#listofitem li').forEach(task => {
+            const tasks = task.querySelector('label').textContent;
+            const isChecked = task.querySelector('input[type="checkbox"]').checked;
+            todos.push({text: tasks, checked: isChecked});
+        });
+        localStorage.setItem('task', JSON.stringify(todos));
+    });
+}
+
+// load tasks from local storage
+function Load(){
+    const savedTodo = JSON.parse(localStorage.getItem('task')) || [];
+    const loadButton = document.querySelector('.load');
+    loadButton.addEventListener('click', function(){
+        savedTodo.forEach(task => addTask(task.text, task.checked));
+    })
+}
