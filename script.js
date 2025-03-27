@@ -21,7 +21,7 @@ clearButton.addEventListener('click', (e) => {
 // add function
 function addFunction(){
     const addButton = document.querySelector('.add');
-    
+
     // create input field to add new task
     const inputItem = document.createElement('input');
     inputItem.type = 'text';
@@ -111,4 +111,5 @@ function editFunction(taskItem) {
     });
 }
 
+// Attach edit functionality to existing tasks
 document.querySelectorAll('#listofitem li').forEach(editFunction);
