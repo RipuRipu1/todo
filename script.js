@@ -13,54 +13,59 @@ function deleteFunction(taskItem) {
 // Attach delete functionality to existing tasks (if any)
 document.querySelectorAll('#listofitem li').forEach(deleteFunction);
 
+// clear function
 clearButton.addEventListener('click', (e) => {
     e.preventDefault(); // ensures the button doesn't reload page
     list.innerHTML = '';
 })
 
-// create input field to add new task
-const inputItem = document.createElement('input');
-inputItem.type = 'text';
-inputItem.placeholder = 'Enter new task'
-
-// track if input is shown
-let isVisible = false
-
-addButton.addEventListener('click', (e) => {
-    e.preventDefault(); // ensures the button doesn't reload page
-
-    if (isVisible) {
-        const newValue = inputItem.value.trim();
-        // get input value and trim space
-
-        if (newValue != '') {
-            const newItemList = document.createElement('li');
-            newItemList.innerHTML = 
-            `<input type="checkbox" name="todo">
-                <label>${newValue}</label>
-                <button type="button" class="edit">
-                    <i data-feather="edit-2"></i>
-                </button>
-                <button type="button" class="delete">
-                    <i data-feather="trash-2"></i>
-                </button>`;
-            list.appendChild(newItemList);
-            deleteFunction(newItemList);
-            editFunction(newItemList);
-            feather.replace();
+// add function
+function addFunction(){
+    // create input field to add new task
+    const inputItem = document.createElement('input');
+    inputItem.type = 'text';
+    inputItem.placeholder = 'Enter new task'
+    
+    // track if input is shown
+    let isVisible = false
+    
+    addButton.addEventListener('click', (e) => {
+        e.preventDefault(); // ensures the button doesn't reload page
+    
+        if (isVisible) {
+            const newValue = inputItem.value.trim();
+            // get input value and trim space
+    
+            if (newValue != '') {
+                const newItemList = document.createElement('li');
+                newItemList.innerHTML = 
+                `<input type="checkbox" name="todo">
+                    <label>${newValue}</label>
+                    <button type="button" class="edit">
+                        <i data-feather="edit-2"></i>
+                    </button>
+                    <button type="button" class="delete">
+                        <i data-feather="trash-2"></i>
+                    </button>`;
+                list.appendChild(newItemList);
+                deleteFunction(newItemList);
+                editFunction(newItemList);
+                feather.replace();
+            }
+    
+            // reset and hide input field
+            inputItem.value = '';
+            inputItem.remove();
+            addButton.textContent = 'add';
+            isVisible = false;
+        } else {
+            addButton.before(inputItem);
+            addButton.textContent ='save';
+            isVisible = true;
         }
+    });   
+}
 
-        // reset and hide input field
-        inputItem.value = '';
-        inputItem.remove();
-        addButton.textContent = 'add';
-        isVisible = false;
-    } else {
-        addButton.before(inputItem);
-        addButton.textContent ='save';
-        isVisible = true;
-    }
-});
 
 function editFunction(taskItem) {
     const editButton = taskItem.querySelector('.edit');
