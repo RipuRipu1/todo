@@ -1,5 +1,4 @@
 const clearButton = document.querySelector('.clear');
-const addButton = document.querySelector('.add');
 const list = document.querySelector('#listofitem');
 
 // delete each item function
@@ -21,6 +20,8 @@ clearButton.addEventListener('click', (e) => {
 
 // add function
 function addFunction(){
+    const addButton = document.querySelector('.add');
+    
     // create input field to add new task
     const inputItem = document.createElement('input');
     inputItem.type = 'text';
