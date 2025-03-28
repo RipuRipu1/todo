@@ -1,34 +1,40 @@
-const clearButton = document.querySelector('.clear');
 const list = document.querySelector('#listofitem');
+const clearButton = document.querySelector('.clear');
 
 // clear function
-document.querySelector('.clear').addEventListener('click', () => {
-    localStorage.removeItem('tasks'); // Clear saved tasks
+clearButton.addEventListener('click', (e) => {
+    e.preventDefault(); // ensures the button doesn't reload page
     document.querySelector('#listofitem').innerHTML = ""; // Clear UI
-    
 });
 
 // delete each item function
 function deleteFunction(taskItem) {
     const deleteButton = taskItem.querySelector('.delete');
     deleteButton.addEventListener('click', () => {
+        console.log('delete button clicked');
+        const taskList = taskItem.querySelector('label').textContent;
+
+        // remove from DOM
         taskItem.remove();
-        
+
+        //remove from local storage
+        removeTask(taskList); 
     });
 }
+
+// remove task from local storage
+const removeTask = (task) => {
+    let storedTask = JSON.parse(localStorage.getItem("task")) || [];
+    storedTask = storedTask.filter(item => item.text !== task);
+    localStorage.setItem("task", JSON.stringify(storedTask));
+}
+
 
 // Attach delete functionality to existing tasks (if any)
 document.querySelectorAll('#listofitem li').forEach(deleteFunction);
 
-// clear function
-clearButton.addEventListener('click', (e) => {
-    e.preventDefault(); // ensures the button doesn't reload page
-    list.innerHTML = '';
-    
-})
-
 // add function
-function addTask(textTodo, isChecked = false){
+// function addTask(){
     const addButton = document.querySelector('.add');
 
     // create input field to add new task
@@ -47,7 +53,6 @@ function addTask(textTodo, isChecked = false){
             // get input value and trim space
     
             if (newValue != '') {
-                const newValue = this.textTodo;
                 const newItemList = document.createElement('li');
                 newItemList.innerHTML = 
                 `<input type="checkbox" name="todo">
@@ -76,7 +81,7 @@ function addTask(textTodo, isChecked = false){
             isVisible = true;
         }
     });   
-}
+// }
 
 
 function editFunction(taskItem) {
@@ -128,23 +133,48 @@ document.querySelectorAll('#listofitem li').forEach(editFunction);
 
 // save tasks in local storage
 function Save(){
+    console.log('save button clicked');
     const todos = [];
-    const saveButton = document.querySelector('.save');
-    saveButton.addEventListener('click', function () {
-        document.querySelectorAll('#listofitem li').forEach(task => {
-            const tasks = task.querySelector('label').textContent;
-            const isChecked = task.querySelector('input[type="checkbox"]').checked;
-            todos.push({text: tasks, checked: isChecked});
-        });
-        localStorage.setItem('task', JSON.stringify(todos));
+    const listOfItem = document.querySelectorAll('#listofitem li');
+    
+    listOfItem.forEach(item => {
+        const todoText = item.querySelector('label').innerText;
+        const isChecked = item.querySelector('input[type="checkbox"]').checked;
+        todos.push({ text: todoText, completed: isChecked });
     });
-}
 
+    localStorage.setItem('task', JSON.stringify(todos));
+}
 // load tasks from local storage
 function Load(){
-    const savedTodo = JSON.parse(localStorage.getItem('task')) || [];
-    const loadButton = document.querySelector('.load');
-    loadButton.addEventListener('click', function(){
-        savedTodo.forEach(task => addTask(task.text, task.checked));
-    })
+    console.log('load button clicked');
+    const savedItem = JSON.parse(localStorage.getItem('task')) || [];
+    const list = document.getElementById('listofitem');
+    list.innerHTML = ''; // Clear existing items
+
+    savedItem.forEach(todo => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <input type="checkbox" name="todo" ${todo.completed ? 'checked' : ''}>
+            <label>${todo.text}</label>
+            <button type="button" class="edit"><i data-feather="edit-2"></i></button>
+            <button type="button" class="delete"><i data-feather="trash-2"></i></button>
+        `;
+        list.appendChild(li);
+
+        // call delete funtion for each to-do item
+        deleteFunction(li);
+    });
+
+    // Re-initialize Feather icons
+    feather.replace();
 }
+
+document.querySelector('.save').addEventListener('click', (e) => {
+    e.preventDefault(); // ensure the button doesn't reload the web page
+    Save();
+});
+document.querySelector('.load').addEventListener('click', (e) => {
+    e.preventDefault(); // ensure the button doesn't reload the web page
+    Load();
+});
